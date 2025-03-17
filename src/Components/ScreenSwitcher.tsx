@@ -6,14 +6,14 @@ interface ScreenSwitcherProps {
 
 export const ScreenSwitcher = (props: ScreenSwitcherProps, context: Context): JSX.Element => {
     return (
-        <vstack alignment='center' width='105%' border='thick' borderColor='white' backgroundColor='black'>
-            <hstack alignment='center' width='80%'>
-                <button appearance='plain' onPress={() => props.setPage('counter')}>Counter</button>
+        <zstack alignment='center' width='105%' border='thick' borderColor='white' backgroundColor='brown'>
+            <hstack alignment='center middle' height='30px' width='80%' maxWidth='512px'>
+                <text selectable={false} style='heading' onPress={() => props.setPage('counter')}>Counter</text>
                 <spacer grow/>
-                <button appearance='plain' onPress={() => props.setPage('kitchen')}>Kitchen</button>
+                <text selectable={false} style='heading' onPress={() => props.setPage('kitchen')}>Kitchen</text>
                 <spacer grow/>
-                <button appearance='plain' onPress={() => props.setPage('assembly')}>Assembly</button>
+                <text selectable={false} style='heading' onPress={() => props.setPage('assembly')}>Assembly</text>
             </hstack>
-        </vstack>
+        </zstack>
     );
 };

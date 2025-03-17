@@ -7,6 +7,7 @@ import {StoreScreen} from "../Components/StoreScreen.js";
 import {TutorialScreen} from "../Components/TutorialScreen.js";
 import {OrderScreen} from "../Components/OrderScreen.js";
 import {ScreenSwitcher} from "../Components/ScreenSwitcher.js";
+import {Controller} from "../Controller.js";
 
 interface PinnedPostProps {
 
@@ -16,39 +17,38 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
     const [page, setPage] = useState('menu');
 
     function startRun() {
-
+        const controller = new Controller();
         setPage('counter');
     }
 
     const Menu = (
-        <vstack height="100%" width="100%" gap="medium" alignment="center middle">
-            <spacer grow/>
-
+        <zstack height="100%" width="100%">
             <image
-                url="logo.png"
-                description="logo"
-                imageHeight={256}
-                imageWidth={256}
-                height="64px"
-                width="64px"
+                url="Backgrounds/MainMenu.png"
+                description="menu-background"
+                imageHeight={512}
+                imageWidth={718}
+                height="100%"
+                width="100%"
+                resizeMode="cover"
             />
-            <text size="xxlarge"> Pasta Panic! </text>
-            <spacer grow/>
-
-            <button appearance="primary" onPress={startRun}>
-                Play
-            </button>
-            <button appearance="primary" onPress={() => setPage('tutorial')}>
-                Tutorial
-            </button>
-            <button appearance="primary" onPress={() => setPage('store')}>
-                Store
-            </button>
-            <button appearance="primary" onPress={() => setPage('order')}>
-                Order Food
-            </button>
-            <spacer grow/>
-        </vstack>
+            <vstack height="100%" width="100%" gap="medium" alignment="center middle">
+                <spacer grow/>
+                <button appearance="primary" onPress={startRun}>
+                    Play
+                </button>
+                <button appearance="primary" onPress={() => setPage('tutorial')}>
+                    Tutorial
+                </button>
+                <button appearance="primary" onPress={() => setPage('store')}>
+                    Store
+                </button>
+                <button appearance="primary" onPress={() => setPage('order')}>
+                    Order Food
+                </button>
+                <spacer height="5%"/>
+            </vstack>
+        </zstack>
     );
 
     const switcher = <ScreenSwitcher setPage={setPage} />

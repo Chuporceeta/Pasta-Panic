@@ -6,10 +6,20 @@ interface CounterScreenProps {
 
 export const CounterScreen = (props: CounterScreenProps, context: Context): JSX.Element => {
     return (
-        <vstack alignment='center' height='100%' backgroundColor='gray'>
-            <text>Counter</text>
-            <spacer grow/>
-            {props.switcher}
-        </vstack>
+        <zstack height="100%" width="100%">
+            <image
+                url="Backgrounds/Counter.png"
+                description="counter-background"
+                imageHeight={512}
+                imageWidth={718}
+                height="100%"
+                width="100%"
+                resizeMode="cover"
+            />
+            <vstack alignment='center' height='100%' width="100%">
+                <spacer grow/>
+                {props.switcher}
+            </vstack>
+        </zstack>
     );
 };
