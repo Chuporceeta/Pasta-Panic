@@ -26,7 +26,11 @@ export class Controller {
 
     public selection: IngredientData;
     select(ingredient: IngredientData) {
-        this.selection = ingredient;
+        if (this.selection.ingredient == ingredient.ingredient) {
+            this.selection = {type: '', ingredient: ''};
+            console.log('deselect');
+        } else
+            this.selection = ingredient;
     }
     isSelected(ingredient: string) {
         return this.selection.ingredient == ingredient;

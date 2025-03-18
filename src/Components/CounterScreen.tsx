@@ -1,4 +1,4 @@
-import {Context, Devvit, useState} from "@devvit/public-api";
+import {Context, Devvit} from "@devvit/public-api";
 
 interface CounterScreenProps {
     switcher: JSX.Element,

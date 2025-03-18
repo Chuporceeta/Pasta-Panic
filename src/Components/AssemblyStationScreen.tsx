@@ -1,8 +1,6 @@
 import {Context, Devvit, useState} from "@devvit/public-api";
 import {SauceShelf, SeasoningShelf, ToppingShelf} from "./Shelves.js";
-import {Controller} from "../Controller.js";
 import {Dish} from "./Dish.js";
-import {IngredientData} from "../types.js";
 
 interface AssemblyScreenProps {
     switcher: JSX.Element,
@@ -32,7 +30,7 @@ export const AssemblyStationScreen = (props: AssemblyScreenProps, context: Conte
                 <spacer height='15px'/>
                 {SauceShelf}
                 <spacer height='75px'/>
-                <hstack gap='small'>
+                <hstack gap='large' alignment='center middle'>
                     <Dish index={1} iconOn={iconOn1}/>
                     <Dish index={2} iconOn={iconOn2}/>
                     <Dish index={3} iconOn={iconOn3}/>

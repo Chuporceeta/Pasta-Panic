@@ -25,7 +25,7 @@ export const Dish = (props: DishProps): JSX.Element => {
                 url={`plate.png`}
                 imageWidth={300}
                 imageHeight={150}
-                width="200px"
+                width="150px"
                 height="75px"
             />
             {ingredients.map(({type, ingredient}) => (
