@@ -1,11 +1,11 @@
-import {Context, Devvit} from "@devvit/public-api";
+import {Devvit} from "@devvit/public-api";
 import {PastaShelf, ProteinShelf} from "./Shelves.js";
 
 interface KitchenScreenProps {
     switcher: JSX.Element,
 }
 
-export const KitchenScreen = (props: KitchenScreenProps, context: Context): JSX.Element => {
+export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
     return (
         <zstack height="100%" width="100%">
             <image

@@ -17,7 +17,7 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
     const [page, setPage] = useState('menu');
 
     function startRun() {
-        const controller = new Controller();
+        const controller: Controller = Controller.init(context);
         setPage('counter');
     }
 
