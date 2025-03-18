@@ -1,4 +1,4 @@
-import {Context, Devvit, useState} from "@devvit/public-api";
+import {Context, Devvit, useForm, useState} from "@devvit/public-api";
 
 import {AssemblyStationScreen} from "../Components/AssemblyStationScreen.js";
 import {KitchenScreen} from "../Components/KitchenScreen.js";
@@ -16,9 +16,36 @@ interface PinnedPostProps {
 export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Element => {
     const [page, setPage] = useState('menu');
 
+    const controller: Controller = Controller.init(context);
+    const newGameForm = useForm(
+        {
+            title: 'New Game',
+            description: "Select Difficulty",
+            acceptLabel: 'Start',
+            fields: [
+                {
+                    type: 'select',
+                    name: 'difficulty',
+                    label: 'Difficulty',
+                    required: true,
+                    multiSelect: false,
+                    defaultValue: ['easy'],
+                    options: [
+                        {label: 'Easy', value: 'easy'},
+                        {label: 'Medium', value: 'medium'},
+                        {label: 'Hard', value: 'hard'},
+                    ]
+                },
+            ],
+        },
+        async (values) => {
+            controller.difficulty = values.difficulty[0];
+            setPage('counter');
+        }
+    );
+
     function startRun() {
-        const controller: Controller = Controller.init(context);
-        setPage('counter');
+        context.ui.showForm(newGameForm);
     }
 
     const Menu = (

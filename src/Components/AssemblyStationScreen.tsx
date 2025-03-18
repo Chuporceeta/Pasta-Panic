@@ -23,13 +23,13 @@ export const AssemblyStationScreen = (props: AssemblyScreenProps, context: Conte
                 resizeMode="cover"
             />
             <vstack alignment='center' height='100%' width='100%'>
-                <spacer height='65px'/>
+                <spacer height='55px'/>
                 {SeasoningShelf}
-                <spacer height='15px'/>
+                <spacer height='25px'/>
                 {ToppingShelf}
-                <spacer height='15px'/>
+                <spacer height='35px'/>
                 {SauceShelf}
-                <spacer height='75px'/>
+                <spacer height='55px'/>
                 <hstack gap='large' alignment='center middle'>
                     <Dish index={1} iconOn={iconOn1}/>
                     <Dish index={2} iconOn={iconOn2}/>

@@ -4,7 +4,6 @@ import {Controller} from "../Controller.js";
 
 interface DishProps {
     index: number,
-    iconOn: StateSetter<boolean>,
 }
 
 export const Dish = (props: DishProps): JSX.Element => {
@@ -15,7 +14,7 @@ export const Dish = (props: DishProps): JSX.Element => {
             return;
         const sel = Controller.instance.selection;
         Controller.instance.dishes[props.index].push(sel);
-        props.iconOn(true);
+        Controller.instance.dishesReady[0] = true;
         Controller.instance.select({type: '', ingredient: ''});
     }
 

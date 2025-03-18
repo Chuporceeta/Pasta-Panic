@@ -1,4 +1,4 @@
-import {Context, RedditAPIClient, RedisClient} from "@devvit/public-api";
+import {Context, RedditAPIClient, RedisClient, useForm} from "@devvit/public-api";
 import {IngredientData} from "./types.js";
 
 export class Controller {
@@ -7,13 +7,12 @@ export class Controller {
     readonly redis: RedisClient;
     readonly reddit?: RedditAPIClient;
 
-    public dishes: IngredientData[][];
+    public dishes: IngredientData[][] = [[], [], [], []];
+    public dishesReady: boolean[] = [false, false, false, false];
 
     private constructor(context: {redis: RedisClient, reddit?: RedditAPIClient}) {
         this.redis = context.redis;
         this.reddit = context.reddit;
-        this.selection = {type: '', ingredient: ''};
-        this.dishes = [[], [], [], []];
         this.free = [1, 2, 3];
     }
 
@@ -24,7 +23,10 @@ export class Controller {
         return Controller.instance;
     }
 
-    public selection: IngredientData;
+    public difficulty: string = 'easy';
+
+
+    public selection: IngredientData = {type: '', ingredient: ''};
     select(ingredient: IngredientData) {
         if (this.selection.ingredient == ingredient.ingredient) {
             this.selection = {type: '', ingredient: ''};

@@ -8,15 +8,15 @@ interface KitchenScreenProps {
 }
 
 export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
-    const [enabled, iconOn] = useState(false);
+    const ready = Controller.instance.dishesReady[0];
 
     function sendDish() {
-        if (enabled) {
+        if (ready) {
             const i = Controller.instance.getFree();
             if (i) {
                 Controller.instance.dishes[i] = Controller.instance.dishes[0];
                 Controller.instance.dishes[0] = [];
-                iconOn(false);
+                Controller.instance.dishesReady[0] = false;
             }
         }
     }
@@ -33,17 +33,17 @@ export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
                 resizeMode="cover"
             />
             <vstack alignment='center' height='100%' width="100%">
-                <spacer height='65px'/>
+                <spacer height='55px'/>
                 {PastaShelf}
-                <spacer height='15px'/>
-                {ProteinShelf}
                 <spacer height='25px'/>
+                {ProteinShelf}
+                <spacer height='165px'/>
                 <hstack alignment='center middle' width='100%'>
-                    <text>Trash</text>
+                    <image url={'hole.png'} imageWidth={300} imageHeight={150} width='100px' height='50px'/>
                     <spacer width='35%'/>
                     <hstack gap='small' alignment='center middle'>
-                        {<Dish index={0} iconOn={iconOn}/>}
-                        <icon name={enabled ? 'send-fill' : 'send-outline'} size='large' onPress={sendDish}/>
+                        {<Dish index={0}/>}
+                        <icon name={ready ? 'send-fill' : 'send-outline'} size='large' onPress={sendDish}/>
                     </hstack>
                 </hstack>
                 <spacer grow/>

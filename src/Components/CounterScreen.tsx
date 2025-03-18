@@ -8,8 +8,17 @@ export const CounterScreen = (props: CounterScreenProps, context: Context): JSX.
     return (
         <zstack height="100%" width="100%">
             <image
-                url="Backgrounds/Counter.png"
+                url="Backgrounds/CounterBackground.png"
                 description="counter-background"
+                imageHeight={512}
+                imageWidth={718}
+                height="100%"
+                width="100%"
+                resizeMode="cover"
+            />
+            <image
+                url="Backgrounds/Counter.png"
+                description="counter"
                 imageHeight={512}
                 imageWidth={718}
                 height="100%"
