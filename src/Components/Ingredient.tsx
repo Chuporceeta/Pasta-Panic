@@ -9,14 +9,17 @@ export const Ingredient = (props: IngredientData): JSX.Element => {
         <zstack
             onPress={() => Controller.instance.select(props)}
             backgroundColor={`rgba(255, 255, 0, ${alpha})`}
-            cornerRadius='large'>
-        <image
-            url={`Ingredients/${props.type}/${props.ingredient}.png`}
-            imageWidth={250}
-            imageHeight={250}
-            width="55px"
-            height="55px"
-        />
+            borderColor={`rgba(255, 255, 0, ${alpha})`}
+            border='thick'
+            cornerRadius='small'
+        >
+            <image
+                url={`Ingredients/${props.type}/${props.ingredient}.png`}
+                imageWidth={250}
+                imageHeight={250}
+                width="55px"
+                height="55px"
+            />
         </zstack>
     );
 };

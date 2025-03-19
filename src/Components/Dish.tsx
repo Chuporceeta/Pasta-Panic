@@ -1,4 +1,4 @@
-import {Devvit, StateSetter} from "@devvit/public-api";
+import {Devvit} from "@devvit/public-api";
 import {Controller} from "../Controller.js";
 
 
@@ -14,7 +14,7 @@ export const Dish = (props: DishProps): JSX.Element => {
             return;
         const sel = Controller.instance.selection;
         Controller.instance.dishes[props.index].push(sel);
-        Controller.instance.dishesReady[0] = true;
+        Controller.instance.dishesReady[props.index] = true;
         Controller.instance.select({type: '', ingredient: ''});
     }
 
