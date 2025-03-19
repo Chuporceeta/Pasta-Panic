@@ -18,6 +18,9 @@ export const Dish = (props: DishProps): JSX.Element => {
         Controller.instance.select({type: '', ingredient: ''});
     }
 
+    if (props.index > 3 && !Controller.instance.dishesReady[props.index])
+        return <spacer width='150px' height='75px'/>;
+
     return (
         <zstack onPress={clicked} alignment='center middle'>
             <image

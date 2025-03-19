@@ -1,4 +1,5 @@
 import {Context, Devvit} from "@devvit/public-api";
+import {Dish} from "./Dish.js";
 
 interface CounterScreenProps {
     switcher: JSX.Element,
@@ -26,6 +27,12 @@ export const CounterScreen = (props: CounterScreenProps, context: Context): JSX.
                 resizeMode="cover"
             />
             <vstack alignment='center' height='100%' width="100%">
+                <spacer height='300px'/>
+                <hstack gap='large' alignment='center middle'>
+                    <Dish index={4}/>
+                    <Dish index={5}/>
+                    <Dish index={6}/>
+                </hstack>
                 <spacer grow/>
                 {props.switcher}
             </vstack>

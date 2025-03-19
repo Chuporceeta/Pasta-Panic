@@ -1,4 +1,4 @@
-import {Devvit, useState} from "@devvit/public-api";
+import {Devvit} from "@devvit/public-api";
 import {PastaShelf, ProteinShelf} from "./Shelves.js";
 import {Controller} from "../Controller.js";
 import {Dish} from "./Dish.js";
@@ -12,9 +12,10 @@ export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
 
     function sendDish() {
         if (ready) {
-            const i = Controller.instance.getFree();
-            if (i) {
+            const i = Controller.instance.getFree('assembly');
+            if (i != -1) {
                 Controller.instance.dishes[i] = Controller.instance.dishes[0];
+                Controller.instance.dishesReady[i] = true;
                 Controller.instance.dishes[0] = [];
                 Controller.instance.dishesReady[0] = false;
             }

@@ -1,4 +1,4 @@
-import {Context, RedditAPIClient, RedisClient, useForm} from "@devvit/public-api";
+import {Context, RedditAPIClient, RedisClient} from "@devvit/public-api";
 import {IngredientData} from "./types.js";
 
 export class Controller {
@@ -7,13 +7,13 @@ export class Controller {
     readonly redis: RedisClient;
     readonly reddit?: RedditAPIClient;
 
-    public dishes: IngredientData[][] = [[], [], [], []];
-    public dishesReady: boolean[] = [false, false, false, false];
+    public dishes: IngredientData[][] = [[], [], [], [], [], [], []];
+    public dishesReady: boolean[] = [false, false, false, false, false, false, false];
+
 
     private constructor(context: {redis: RedisClient, reddit?: RedditAPIClient}) {
         this.redis = context.redis;
         this.reddit = context.reddit;
-        this.free = [1, 2, 3];
     }
 
     static init(context: Context): Controller {
@@ -38,8 +38,10 @@ export class Controller {
         return this.selection.ingredient == ingredient;
     }
 
-    private free: number[];
-    getFree() {
-        return this.free.shift();
+    getFree(loc: string) {
+        if (loc == 'assembly')
+            return this.dishes.slice(1, 4).findIndex(dish => dish.length == 0) + 1;
+        // if (loc == 'counter')
+            return this.dishes.slice(4).findIndex(dish => dish.length == 0) + 4;
     }
 }
