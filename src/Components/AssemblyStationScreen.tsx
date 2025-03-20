@@ -11,7 +11,7 @@ export const AssemblyStationScreen = (props: AssemblyScreenProps, context: Conte
     const [ready1, ready2, ready3] = Controller.instance.dishesReady.slice(1, 4);
     function send(index: number) {
         const i = Controller.instance.getFree('counter');
-        if (i != -1) {
+        if (i > 3) {
             Controller.instance.dishes[i] = Controller.instance.dishes[index];
             Controller.instance.dishesReady[i] = true;
 

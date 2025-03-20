@@ -13,7 +13,7 @@ export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
     function sendDish() {
         if (ready) {
             const i = Controller.instance.getFree('assembly');
-            if (i != -1) {
+            if (i > 0) {
                 Controller.instance.dishes[i] = Controller.instance.dishes[0];
                 Controller.instance.dishesReady[i] = true;
                 Controller.instance.dishes[0] = [];
