@@ -1,5 +1,5 @@
 import {Context, RedditAPIClient, RedisClient} from "@devvit/public-api";
-import {IngredientData} from "./types.js";
+import {BurnerData, IngredientData} from "./types.js";
 
 export class Controller {
     static instance: Controller;
@@ -7,24 +7,28 @@ export class Controller {
     readonly redis: RedisClient;
     readonly reddit?: RedditAPIClient;
 
+    public difficulty: string = 'easy';
+
     public dishes: IngredientData[][] = [[], [], [], [], [], [], []];
     public dishesReady: boolean[] = [false, false, false, false, false, false, false];
 
+    public burners: BurnerData[] = [
+        {sprite:'blank', ingredient:null},
+        {sprite:'blank', ingredient:null},
+        {sprite:'blank', ingredient:null},
+        {sprite:'blank', ingredient:null}
+    ];
 
     private constructor(context: {redis: RedisClient, reddit?: RedditAPIClient}) {
         this.redis = context.redis;
         this.reddit = context.reddit;
     }
-
     static init(context: Context): Controller {
         if (Controller.instance)
             return Controller.instance;
         Controller.instance = new Controller(context);
         return Controller.instance;
     }
-
-    public difficulty: string = 'easy';
-
 
     public selection: IngredientData = {type: '', ingredient: ''};
     select(ingredient: IngredientData) {

@@ -24,7 +24,7 @@ export const Dish = (props: DishProps): JSX.Element => {
     return (
         <zstack onPress={clicked} alignment='center middle'>
             <image
-                url={`plate.png`}
+                url='plate.png'
                 imageWidth={300}
                 imageHeight={150}
                 width="150px"

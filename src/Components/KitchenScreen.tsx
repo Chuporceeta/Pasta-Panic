@@ -2,6 +2,7 @@ import {Devvit} from "@devvit/public-api";
 import {PastaShelf, ProteinShelf} from "./Shelves.js";
 import {Controller} from "../Controller.js";
 import {Dish} from "./Dish.js";
+import {Burner} from "./Burner.js";
 
 interface KitchenScreenProps {
     switcher: JSX.Element,
@@ -38,7 +39,15 @@ export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
                 {PastaShelf}
                 <spacer height='25px'/>
                 {ProteinShelf}
-                <spacer height='165px'/>
+                <spacer height='30px'/>
+                <hstack height='100px' width='100%' alignment='center bottom'>
+                    <Burner index={0}/>
+                    <Burner index={1}/>
+                    <spacer width='10px'/>
+                    <Burner index={2}/>
+                    <Burner index={3}/>
+                </hstack>
+                <spacer height='25px'/>
                 <hstack alignment='center middle' width='100%'>
                     <image url={'hole.png'} imageWidth={300} imageHeight={150} width='100px' height='50px'/>
                     <spacer width='35%'/>

@@ -3,8 +3,16 @@ import {IngredientData} from "../types.js";
 import {Controller} from "../Controller.js";
 
 export const Ingredient = (props: IngredientData): JSX.Element => {
-    let alpha = Controller.instance.isSelected(props.ingredient) ? 1 : 0;
-
+    const alpha = Controller.instance.isSelected(props.ingredient) ? 1 : 0;
+    const [w, h] = props.type == 'seasoning' ? [55, 55] : [55, 55]
+    // const tray = props.type == 'protein' || props.type == 'topping' ?
+    //     <image
+    //         url='tray.png'
+    //         imageWidth={250}
+    //         imageHeight={250}
+    //         width='55px'
+    //         height='55px'
+    //     /> : <spacer/>
     return (
         <zstack
             onPress={() => Controller.instance.select(props)}
@@ -13,12 +21,13 @@ export const Ingredient = (props: IngredientData): JSX.Element => {
             border='thick'
             cornerRadius='small'
         >
+            {/*{tray}*/}
             <image
                 url={`Ingredients/${props.type}/${props.ingredient}.png`}
                 imageWidth={250}
                 imageHeight={250}
-                width="55px"
-                height="55px"
+                width={`${w}px`}
+                height={`${h}px`}
             />
         </zstack>
     );

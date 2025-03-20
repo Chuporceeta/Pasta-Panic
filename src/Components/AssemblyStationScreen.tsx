@@ -36,7 +36,7 @@ export const AssemblyStationScreen = (props: AssemblyScreenProps, context: Conte
                 {SeasoningShelf}
                 <spacer height='25px'/>
                 {ToppingShelf}
-                <spacer height='35px'/>
+                <spacer height='25px'/>
                 {SauceShelf}
                 <spacer height='55px'/>
                 <hstack gap='large' alignment='center middle'>

@@ -48,10 +48,10 @@ export const ToppingShelf: JSX.Element = (
 export const SeasoningShelf: JSX.Element = (
     <hstack gap='large'>
         <Ingredient type='seasoning' ingredient='parmesan'/>
-        <Ingredient type='seasoning' ingredient='pecorino'/>
-        <Ingredient type='seasoning' ingredient='oregano'/>
-        <Ingredient type='seasoning' ingredient='black-pepper'/>
-        <Ingredient type='seasoning' ingredient='red-pepper'/>
         <Ingredient type='seasoning' ingredient='garlic'/>
+        <Ingredient type='seasoning' ingredient='lemon'/>
+        <Ingredient type='seasoning' ingredient='pepper'/>
+        <Ingredient type='seasoning' ingredient='chili'/>
+        <Ingredient type='seasoning' ingredient='oregano'/>
     </hstack>
 );
