@@ -10,12 +10,28 @@ export const Dish = (props: DishProps): JSX.Element => {
     const ingredients = Controller.instance.dishes[props.index];
 
     function clicked() {
-        if (Controller.instance.isSelected(''))
-            return;
         const sel = Controller.instance.selection;
-        Controller.instance.dishes[props.index].push(sel);
-        Controller.instance.dishesReady[props.index] = true;
-        Controller.instance.select({type: '', ingredient: ''});
+        const bSel = Controller.instance.burnerSelection;
+        if (bSel != null) { // cooked food selected -> plate, clear burner, deselect, & ready
+            const burner = Controller.instance.burners[bSel];
+            Controller.instance.dishes[props.index].push({
+                type: (burner.sprite == 'pot' ? 'pasta' : 'protein'),
+                // @ts-ignore
+                ingredient: burner.ingredient,
+                cookTime: burner.cookTime,
+            });
+
+            Controller.instance.burners[bSel] = {sprite:'blank', ingredient:null, cookTime:0};
+            Controller.instance.burnerSelection  = null;
+            Controller.instance.dishesReady[props.index] = true;
+        }
+        if (sel != null) { // ingredient selected -> plate, deselect, & ready
+            if (sel.type == 'pasta' || sel.type == 'protein') // can't plate raw food
+                return;
+            Controller.instance.dishes[props.index].push(sel);
+            Controller.instance.select({type: '', ingredient: ''});
+            Controller.instance.dishesReady[props.index] = true;
+        }
     }
 
     if (props.index > 3 && !Controller.instance.dishesReady[props.index])

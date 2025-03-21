@@ -14,6 +14,7 @@ const sprites = {
 
 export const Burner = (props: BurnerProps): JSX.Element => {
     const data = Controller.instance.burners[props.index];
+    const alpha = Controller.instance.burnerSelection == props.index ? 1 : 0;
 
     const food = data.sprite == 'blank' ? sprites.blank : data.sprite == 'pot' ?
             <image
@@ -32,21 +33,29 @@ export const Burner = (props: BurnerProps): JSX.Element => {
             />;
 
     function clicked() {
+        console.log(Controller.instance.burnerSelection, Controller.instance.selection);
         const sel = Controller.instance.selection;
-        if (sel.type == 'pasta')
-            data.sprite = 'pot';
-        else if (sel.type == 'protein')
-            data.sprite = 'pan';
-        else
-            return;
-        // @ts-ignore
-        data.ingredient = sel.ingredient;
-        Controller.instance.select({type: '', ingredient: ''});
+        if (data.ingredient == null) { // burner is empty
+            if (sel?.type == 'pasta')
+                data.sprite = 'pot';
+            else if (sel?.type == 'protein')
+                data.sprite = 'pan';
+            else
+                return;
+            // @ts-ignore
+            data.ingredient = sel.ingredient;
+            Controller.instance.select(null);
+        } else { // burner has food
+            if (Controller.instance.burnerSelection == props.index) // burner is selected -> deselect
+                Controller.instance.burnerSelection = null;
+            else // select burner
+                Controller.instance.burnerSelection = props.index;
+        }
     }
 
     return (
         <hstack width='134px' height='100px' alignment='center bottom'>
-            <zstack onPress={clicked}>
+            <zstack onPress={clicked} backgroundColor={`rgba(255, 255, 0, ${alpha})`}>
                 {sprites[data.sprite]}
                 {food}
             </zstack>

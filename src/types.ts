@@ -6,12 +6,14 @@ export type Sauce = 'marinara' | 'vodka' | 'bolognese' | 'pesto' | 'alfredo' | '
 
 export type IngredientData = {
     type: 'pasta' | 'protein' | 'sauce' | 'seasoning' | 'topping' | '',
-    ingredient: Pasta | Protein | Sauce | Seasoning | Topping | ''
+    ingredient: Pasta | Protein | Sauce | Seasoning | Topping | '',
+    cookTime?: number
 }
 
 export type BurnerData = {
     sprite: 'blank' | 'pot' | 'pan',
-    ingredient: Pasta | Protein | null
+    ingredient: Pasta | Protein | null,
+    cookTime: number,
 }
 
 export type Order = {

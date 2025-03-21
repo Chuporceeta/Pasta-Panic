@@ -17,8 +17,6 @@ export const Ingredient = (props: IngredientData): JSX.Element => {
         <zstack
             onPress={() => Controller.instance.select(props)}
             backgroundColor={`rgba(255, 255, 0, ${alpha})`}
-            borderColor={`rgba(255, 255, 0, ${alpha})`}
-            border='thick'
             cornerRadius='small'
         >
             {/*{tray}*/}

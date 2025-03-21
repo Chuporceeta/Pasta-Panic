@@ -13,10 +13,10 @@ export class Controller {
     public dishesReady: boolean[] = [false, false, false, false, false, false, false];
 
     public burners: BurnerData[] = [
-        {sprite:'blank', ingredient:null},
-        {sprite:'blank', ingredient:null},
-        {sprite:'blank', ingredient:null},
-        {sprite:'blank', ingredient:null}
+        {sprite:'blank', ingredient:null, cookTime:0},
+        {sprite:'blank', ingredient:null, cookTime:0},
+        {sprite:'blank', ingredient:null, cookTime:0},
+        {sprite:'blank', ingredient:null, cookTime:0}
     ];
 
     private constructor(context: {redis: RedisClient, reddit?: RedditAPIClient}) {
@@ -30,16 +30,18 @@ export class Controller {
         return Controller.instance;
     }
 
-    public selection: IngredientData = {type: '', ingredient: ''};
-    select(ingredient: IngredientData) {
-        if (this.selection.ingredient == ingredient.ingredient) {
-            this.selection = {type: '', ingredient: ''};
-            console.log('deselect');
-        } else
+    public selection: IngredientData | null = null;
+    public burnerSelection: number | null = null;
+    select(ingredient: IngredientData | null) {
+        if (ingredient == null || this.selection?.ingredient == ingredient.ingredient)
+            this.selection = null;
+        else { // select ingredient, deselect potentially selected burner
             this.selection = ingredient;
+            this.burnerSelection = null;
+        }
     }
     isSelected(ingredient: string) {
-        return this.selection.ingredient == ingredient;
+        return this.selection?.ingredient == ingredient && this.burnerSelection == null;
     }
 
     getFree(loc: string) {
