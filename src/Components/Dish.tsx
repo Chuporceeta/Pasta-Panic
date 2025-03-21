@@ -29,9 +29,10 @@ export const Dish = (props: DishProps): JSX.Element => {
             if (sel.type == 'pasta' || sel.type == 'protein') // can't plate raw food
                 return;
             Controller.instance.dishes[props.index].push(sel);
-            Controller.instance.select({type: '', ingredient: ''});
+            Controller.instance.select(null);
             Controller.instance.dishesReady[props.index] = true;
         }
+        console.log(ingredients);
     }
 
     if (props.index > 3 && !Controller.instance.dishesReady[props.index])
