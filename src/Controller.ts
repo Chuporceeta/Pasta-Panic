@@ -1,5 +1,5 @@
 import {Context, RedditAPIClient, RedisClient} from "@devvit/public-api";
-import {BurnerData, IngredientData} from "./types.js";
+import {BurnerData, IngredientData, Order} from "./types.js";
 
 export class Controller {
     static instance: Controller;
@@ -8,6 +8,7 @@ export class Controller {
     readonly reddit?: RedditAPIClient;
 
     public difficulty: string = 'easy';
+    public myOrder?: Order;
 
     public dishes: IngredientData[][] = [[], [], [], [], [], [], []];
     public dishesReady: boolean[] = [false, false, false, false, false, false, false];
