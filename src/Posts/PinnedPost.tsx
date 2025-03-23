@@ -3,20 +3,19 @@ import {Context, Devvit, useForm, useState} from "@devvit/public-api";
 import {AssemblyStationScreen} from "../Components/AssemblyStationScreen.js";
 import {KitchenScreen} from "../Components/KitchenScreen.js";
 import {CounterScreen} from "../Components/CounterScreen.js";
-import {StoreScreen} from "../Components/StoreScreen.js";
 import {TutorialScreen} from "../Components/TutorialScreen.js";
 import {OrderScreen} from "../Components/OrderScreen.js";
 import {ScreenSwitcher} from "../Components/ScreenSwitcher.js";
 import {Controller} from "../Controller.js";
+import {Order} from "../types.js";
 
 interface PinnedPostProps {
-
+    coins: number,
+    myOrder: Order | null,
+    avatarURL: string,
 }
 
 export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Element => {
-    Controller.init(context);
-
-
     const [page, setPage] = useState('menu');
 
     const newGameForm = useForm(
@@ -69,13 +68,10 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
                 <button appearance="primary" onPress={() => setPage('tutorial')}>
                     Tutorial
                 </button>
-                <button appearance="primary" onPress={() => setPage('store')}>
-                    Store
-                </button>
                 <button appearance="primary" onPress={() => setPage('order')}>
                     Order Food
                 </button>
-                <spacer height="5%"/>
+                <spacer height="10%"/>
             </vstack>
         </zstack>
     );
@@ -88,8 +84,7 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
         kitchen: <KitchenScreen switcher={switcher}/>,
         assembly: <AssemblyStationScreen switcher={switcher}/>,
         tutorial: <TutorialScreen/>,
-        store: <StoreScreen/>,
-        order: <OrderScreen/>,
+        order: <OrderScreen myOrder={props.myOrder} coins={props.coins} avatarURL={props.avatarURL}/>,
     };
 
     return pages[page] || Menu;

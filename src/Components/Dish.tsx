@@ -32,7 +32,6 @@ export const Dish = (props: DishProps): JSX.Element => {
             Controller.instance.select(null);
             Controller.instance.dishesReady[props.index] = true;
         }
-        console.log(ingredients);
     }
 
     if (props.index > 3 && !Controller.instance.dishesReady[props.index])

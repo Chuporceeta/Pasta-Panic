@@ -1,9 +1,15 @@
-import {Context, Devvit, useForm} from "@devvit/public-api";
-import {Controller} from "../Controller.js";
-import {IngredientData, Pasta, Protein, Sauce, Seasoning, Topping} from "../types.js";
+import {Context, Devvit, useForm, useState} from "@devvit/public-api";
+import {IngredientData, Order, Pasta, Protein, Sauce, Seasoning, Topping} from "../types.js";
 
-export const OrderScreen = (props: any, context: Context): JSX.Element => {
-    const order = Controller.instance.myOrder;
+interface OrderScreenProps {
+    coins: number,
+    myOrder: Order | null,
+    avatarURL: string,
+}
+
+export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Element => {
+    const [order, setOrder] = useState<Order|null>(props.myOrder);
+
     const orderForm = useForm(
         {
             title: 'Order Food',
@@ -87,20 +93,31 @@ export const OrderScreen = (props: any, context: Context): JSX.Element => {
             ],
         },
         async (values) => {
-            console.log('sent');
-            Controller.instance.sendOrder({
+            const newOrder = {
                 pasta: (values.pasta != undefined) ? values.pasta[0] as Pasta : null,
                 protein: (values.protein != undefined) ? values.protein[0] as Protein : null,
                 sauce: (values.sauce != undefined) ? values.sauce[0] as Sauce : null,
                 toppings: values.toppings as Topping[],
                 seasonings: values.seasonings as Seasoning[]
+            };
+            setOrder(newOrder);
+
+            // store user data: id -> {order, coins}
+            await context.redis.hSet(context.userId || '', {
+                coins: props.coins.toString(),
+                order: JSON.stringify(newOrder),
+                url: props.avatarURL,
             });
 
+            // store order: 'orders' -> {avatarURL: order}
+            await context.redis.hSet('orders', {
+                [props.avatarURL]: JSON.stringify(newOrder),
+            });
         }
     );
 
     let ingredients: IngredientData[] = [];
-    if (order != undefined) {
+    if (order != null) {
         if (order.pasta != null)
             ingredients.push({type: 'pasta', ingredient: order.pasta});
         if (order.sauce != null)
@@ -128,7 +145,7 @@ export const OrderScreen = (props: any, context: Context): JSX.Element => {
             />
             <vstack alignment='center' width='100%' height='100%'>
                 <spacer height='25px'/>
-                <text>You have `{Controller.instance.coins}` coins</text>
+                <text>You have {props.coins} coins</text>
                 <spacer height='150px'/>
                 {order == undefined ?
                     <vstack height='75px'>

@@ -35,7 +35,6 @@ export const Burner = (props: BurnerProps): JSX.Element => {
             />;
 
     function clicked() {
-        console.log(Controller.instance.burnerSelection, Controller.instance.selection);
         const sel = Controller.instance.selection;
         if (data.ingredient == null) { // burner is empty
             if (sel?.type == 'pasta')
