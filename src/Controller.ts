@@ -5,7 +5,11 @@ export class Controller {
     static instance: Controller;
 
     readonly redis: RedisClient;
-    readonly reddit?: RedditAPIClient;
+    readonly reddit: RedditAPIClient;
+
+    private readonly currentUser: string;
+    private avatarURL?: string;
+    public coins: number = 10;
 
     public difficulty: string = 'easy';
     public myOrder?: Order;
@@ -20,15 +24,32 @@ export class Controller {
         {sprite:'blank', ingredient:null, cookTime:0}
     ];
 
-    private constructor(context: {redis: RedisClient, reddit?: RedditAPIClient}) {
+    private constructor(context: Context) {
         this.redis = context.redis;
         this.reddit = context.reddit;
+        this.currentUser = context.userId || '';
+        console.log('constructor');
+        console.log(context.userId);
     }
-    static init(context: Context): Controller {
+    static async init(context: Context): Promise<boolean> {
         if (Controller.instance)
-            return Controller.instance;
+            return false;
         Controller.instance = new Controller(context);
-        return Controller.instance;
+
+        if (this.instance.currentUser) {
+            const userData = await this.instance.redis.hMGet(this.instance.currentUser, ['coins', 'order', 'url'])
+            if (userData != null) {
+                if (userData[0] != undefined)
+                    this.instance.coins = parseInt(userData[0]);
+                if (userData[1] != undefined)
+                    this.instance.myOrder = JSON.parse(userData[1]);
+                if (userData[2] != undefined)
+                    this.instance.avatarURL = userData[2];
+            }
+            return true;
+        }
+
+        return false;
     }
 
     public selection: IngredientData | null = null;
@@ -50,5 +71,37 @@ export class Controller {
             return this.dishes.slice(1, 4).findIndex(dish => dish.length == 0) + 1;
         // if (loc == 'counter')
             return this.dishes.slice(4).findIndex(dish => dish.length == 0) + 4;
+    }
+
+    async getAvatarURL() {
+        if (!this.avatarURL) {
+            this.reddit.getCurrentUsername().then(username => {
+                if (username) {
+                    this.reddit.getSnoovatarUrl(username).then(url => {
+                        if (url)
+                            this.avatarURL = url;
+                        return url;
+                    });
+                }
+            })
+        }
+        return this.avatarURL;
+    }
+
+    sendOrder(order: Order) {
+        this.myOrder = order;
+        this.getAvatarURL().then(url => {
+            // store user data: id -> {order, coins}
+            this.redis.hSet(this.currentUser, {
+                order: JSON.stringify(order),
+                coins: this.coins.toString(),
+                url: url || '',
+            });
+
+            // store order: 'orders' -> {avatarURL: order}
+            this.redis.hSet('orders', {
+                [url || '']: JSON.stringify(order),
+            })
+        });
     }
 }

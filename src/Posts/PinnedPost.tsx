@@ -14,9 +14,11 @@ interface PinnedPostProps {
 }
 
 export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Element => {
+    useState(async() => await Controller.init(context));
+
+
     const [page, setPage] = useState('menu');
 
-    const controller: Controller = Controller.init(context);
     const newGameForm = useForm(
         {
             title: 'New Game',
@@ -39,7 +41,7 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
             ],
         },
         async (values) => {
-            controller.difficulty = values.difficulty[0];
+            Controller.instance.difficulty = values.difficulty[0];
             setPage('counter');
         }
     );

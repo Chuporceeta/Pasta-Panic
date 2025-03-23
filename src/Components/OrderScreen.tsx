@@ -86,14 +86,16 @@ export const OrderScreen = (props: any, context: Context): JSX.Element => {
                 },
             ],
         },
-        (values) => {
-            Controller.instance.myOrder = {
+        async (values) => {
+            console.log('sent');
+            Controller.instance.sendOrder({
                 pasta: (values.pasta != undefined) ? values.pasta[0] as Pasta : null,
                 protein: (values.protein != undefined) ? values.protein[0] as Protein : null,
                 sauce: (values.sauce != undefined) ? values.sauce[0] as Sauce : null,
                 toppings: values.toppings as Topping[],
                 seasonings: values.seasonings as Seasoning[]
-            }
+            });
+
         }
     );
 
@@ -112,6 +114,7 @@ export const OrderScreen = (props: any, context: Context): JSX.Element => {
             for (let seasoning of order.seasonings)
                 ingredients.push({type: 'seasoning', ingredient: seasoning});
     }
+
     return (
         <zstack width='100%' height='100%' backgroundColor='gray'>
             <image
@@ -125,7 +128,7 @@ export const OrderScreen = (props: any, context: Context): JSX.Element => {
             />
             <vstack alignment='center' width='100%' height='100%'>
                 <spacer height='25px'/>
-                <text>You have 999 dollars</text>
+                <text>You have `{Controller.instance.coins}` coins</text>
                 <spacer height='150px'/>
                 {order == undefined ?
                     <vstack height='75px'>
