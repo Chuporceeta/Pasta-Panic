@@ -63,7 +63,7 @@ export class Controller {
         }
     }
     isSelected(ingredient: string) {
-        return this.selection?.ingredient == ingredient && this.burnerSelection == null;
+        return this.selection?.ingredient == ingredient;
     }
 
     getFree(loc: string) {

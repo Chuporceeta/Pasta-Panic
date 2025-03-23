@@ -6,15 +6,17 @@ interface BurnerProps {
     index: number;
 }
 
-const sprites = {
-    blank: <image url='burner.png' imageWidth={95} imageHeight={55}/>,
-    pot: <image url='pot.png' imageWidth={150} imageHeight={110} width="120px"/>,
-    pan: <image url='pan.png' imageWidth={181} imageHeight={110} width="130px"/>
-};
+
 
 export const Burner = (props: BurnerProps): JSX.Element => {
     const data = Controller.instance.burners[props.index];
-    const alpha = Controller.instance.burnerSelection == props.index ? 1 : 0;
+    const s = Controller.instance.burnerSelection == props.index ? 1 : 0;
+
+    const sprites = {
+        blank: <image url='burner.png' imageWidth={95} imageHeight={55}/>,
+        pot: <image url={`pot${s}.png`} imageWidth={160} imageHeight={110} width="120px"/>,
+        pan: <image url={`pan${s}.png`} imageWidth={191} imageHeight={110} width="130px"/>
+    };
 
     const food = data.sprite == 'blank' ? sprites.blank : data.sprite == 'pot' ?
             <image
@@ -48,14 +50,16 @@ export const Burner = (props: BurnerProps): JSX.Element => {
         } else { // burner has food
             if (Controller.instance.burnerSelection == props.index) // burner is selected -> deselect
                 Controller.instance.burnerSelection = null;
-            else // select burner
+            else { // select burner & deselect ingredient
                 Controller.instance.burnerSelection = props.index;
+                Controller.instance.selection = null;
+            }
         }
     }
 
     return (
         <hstack width='134px' height='100px' alignment='center bottom'>
-            <zstack onPress={clicked} backgroundColor={`rgba(255, 255, 0, ${alpha})`}>
+            <zstack onPress={clicked}>
                 {sprites[data.sprite]}
                 {food}
             </zstack>

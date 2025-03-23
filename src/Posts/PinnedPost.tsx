@@ -14,7 +14,7 @@ interface PinnedPostProps {
 }
 
 export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Element => {
-    useState(async() => await Controller.init(context));
+    Controller.init(context);
 
 
     const [page, setPage] = useState('menu');
