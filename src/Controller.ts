@@ -24,7 +24,11 @@ export class Controller {
     public selection: IngredientData | null = null;
     public burnerSelection: number | null = null;
     select(ingredient: IngredientData | null) {
-        if (ingredient == null || this.selection?.ingredient == ingredient.ingredient)
+        if (ingredient === null) {
+            if (this.burnerSelection != null)
+                this.burners[this.burnerSelection] = {sprite:'blank', ingredient:null, cookTime:0};
+            this.selection = this.burnerSelection = null;
+        } else if (this.selection?.ingredient == ingredient.ingredient)
             this.selection = null;
         else { // select ingredient, deselect potentially selected burner
             this.selection = ingredient;

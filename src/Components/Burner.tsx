@@ -23,15 +23,15 @@ export const Burner = (props: BurnerProps): JSX.Element => {
                 url={`Ingredients/pasta/${data.ingredient}.png`}
                 imageWidth={250}
                 imageHeight={250}
-                width="100px"
-                height="75px"
+                width="50px"
+                height="50px"
             /> :
             <image
                 url={`Ingredients/protein/${data.ingredient}.png`}
                 imageWidth={250}
                 imageHeight={250}
-                width="100px"
-                height="75px"
+                width="45px"
+                height="45px"
             />;
 
     function clicked() {
@@ -58,7 +58,7 @@ export const Burner = (props: BurnerProps): JSX.Element => {
 
     return (
         <hstack width='134px' height='100px' alignment='center bottom'>
-            <zstack onPress={clicked}>
+            <zstack onPress={clicked} alignment='center middle'>
                 {sprites[data.sprite]}
                 {food}
             </zstack>

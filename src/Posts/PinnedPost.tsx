@@ -39,7 +39,7 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
                 },
             ],
         },
-        async (values) => {
+        (values) => {
             Controller.instance.difficulty = values.difficulty[0];
             setPage('counter');
         }

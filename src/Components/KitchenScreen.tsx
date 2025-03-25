@@ -3,6 +3,7 @@ import {PastaShelf, ProteinShelf} from "./Shelves.js";
 import {Controller} from "../Controller.js";
 import {Dish} from "./Dish.js";
 import {Burner} from "./Burner.js";
+import {CookTimer} from "./CookTimer.js";
 
 interface KitchenScreenProps {
     switcher: JSX.Element,
@@ -47,9 +48,20 @@ export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
                     <Burner index={2}/>
                     <Burner index={3}/>
                 </hstack>
-                <spacer height='25px'/>
+                <hstack height='25px' width='100%' alignment='center'>
+                    <CookTimer index={0}/>
+                    <CookTimer index={1}/>
+                    <spacer width='10px'/>
+                    <CookTimer index={2}/>
+                    <CookTimer index={3}/>
+                </hstack>
                 <hstack alignment='center middle' width='100%'>
-                    <image url={'hole.png'} imageWidth={300} imageHeight={150} width='100px' height='50px'/>
+                    <image
+                        url={'hole.png'}
+                        imageWidth={300} imageHeight={150}
+                        width='100px' height='50px'
+                        onPress={() => Controller.instance.select(null)}
+                    />
                     <spacer width='35%'/>
                     <hstack gap='small' alignment='center middle'>
                         {<Dish index={0}/>}
