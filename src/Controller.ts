@@ -27,9 +27,11 @@ export class Controller {
         if (this.length < 1)
             this.length = {'easy': 3, 'medium': 6, 'hard': 9, 'insane': 12}[this.difficulty];
 
+        const numRedditOrders = Math.max(0, randInt(-Math.floor(this.length/3), Math.floor(this.length/3)));
+
         const [min, max] = {'easy': [0,3], 'medium': [2,5], 'hard':[4,7], 'insane':[6,9]}[this.difficulty];
 
-        for (let i = 0; i < this.length; i++) {
+        for (let i = 0; i < this.length - numRedditOrders; i++) {
             const extras = randInt(min, max);
             const toppings = randInt(Math.max(extras-6, 0), Math.min(extras, 6));
             this.orders.push({
@@ -39,6 +41,10 @@ export class Controller {
                 toppings: this.choose(['tomatoes', 'olives', 'anchovies', 'mozzarella', 'basil', 'truffle'], toppings),
                 seasonings: this.choose(['parmesan', 'lemon', 'oregano', 'pepper', 'chili', 'garlic'], extras-toppings)
             });
+        }
+
+        for (let i = 0; i < numRedditOrders; i++) {
+            // fetch reddit order
         }
     }
     private choose(arr: any[], n=0) {

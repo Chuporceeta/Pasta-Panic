@@ -98,7 +98,7 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
         kitchen: <KitchenScreen switcher={switcher} topBar={topBar}/>,
         assembly: <AssemblyStationScreen switcher={switcher} topBar={topBar}/>,
         tutorial: <TutorialScreen/>,
-        order: <OrderScreen myOrder={props.myOrder} coins={props.coins} avatarURL={props.avatarURL}/>,
+        order: <OrderScreen myOrder={props.myOrder} coins={props.coins} avatarURL={props.avatarURL} setPage={setPage}/>,
     };
 
     return pages[page] || Menu;

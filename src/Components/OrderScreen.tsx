@@ -1,10 +1,11 @@
-import {Context, Devvit, useForm, useState} from "@devvit/public-api";
+import {Context, Devvit, StateSetter, useForm, useState} from "@devvit/public-api";
 import {IngredientData, Order, Pasta, Protein, Sauce, Seasoning, Topping} from "../types.js";
 
 interface OrderScreenProps {
     coins: number,
     myOrder: Order | null,
     avatarURL: string,
+    setPage: StateSetter<string>
 }
 
 export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Element => {
@@ -134,9 +135,18 @@ export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Elem
 
     return (
         <zstack width='100%' height='100%' backgroundColor='gray'>
+            <zstack height='85%' alignment='bottom'>
+                <image
+                    url='https://i.redd.it/snoovatar/avatars/65436089-2a0c-4032-aae4-115939c92501.png'
+                    imageWidth={380}
+                    imageHeight={494}
+                    height='350px'
+                    width='290px'
+                />
+            </zstack>
             <image
-                url="Backgrounds/Counter.png"
-                description="counter"
+                url="Backgrounds/OrderCounter.png"
+                description="order-counter"
                 imageHeight={512}
                 imageWidth={718}
                 height="100%"
@@ -168,15 +178,21 @@ export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Elem
                     />
                     {ingredients.map(({type, ingredient}) => (
                         <image
-                            url={`Ingredients/${type}/${ingredient}.png`}
-                            imageWidth={250}
-                            imageHeight={250}
-                            width="100px"
+                            url={`PlatedIngredients/${type}/${ingredient}.png`}
+                            imageWidth={300}
+                            imageHeight={150}
+                            width="150px"
                             height="75px"
                         />
                     ))}
                 </zstack>
             </vstack>
+            <zstack width='80px' height='75px' alignment='end middle'>
+                <button height='30px' onPress={() => {
+                    props.setPage('menu');
+                }}> Back </button>
+            </zstack>
         </zstack>
     );
 };
+//

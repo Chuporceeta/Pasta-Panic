@@ -9,5 +9,6 @@ export const customerSprites: string[] = [
     'https://i.redd.it/snoovatar/avatars/bcb687c2-8a7f-4c30-ad73-153a8351f3da.png',
     'https://i.redd.it/snoovatar/avatars/5697bba6-3018-4b94-8a64-ae7b23b90bfe.png',
     'https://i.redd.it/snoovatar/avatars/114815d0-565f-459d-8efe-7dd69213cdcf.png',
-
+    'https://i.redd.it/snoovatar/avatars/2581c049-8271-4fd8-b373-dd2fc3f2a5a9.png',
+    'https://i.redd.it/snoovatar/avatars/6220482b-435d-40ef-94f7-eccbe4522a3f.png',
 ]

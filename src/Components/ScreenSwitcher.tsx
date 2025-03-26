@@ -8,11 +8,11 @@ export const ScreenSwitcher = (props: ScreenSwitcherProps, context: Context): JS
     return (
         <zstack alignment='center' width='105%' border='thick' borderColor='white' backgroundColor='brown'>
             <hstack alignment='center middle' height='30px' width='80%' maxWidth='512px'>
-                <text selectable={false} style='heading' onPress={() => props.setPage('counter')}>Counter</text>
+                <text selectable={false} style='heading' color='white' onPress={() => props.setPage('counter')}>Counter</text>
                 <spacer grow/>
-                <text selectable={false} style='heading' onPress={() => props.setPage('kitchen')}>Kitchen</text>
+                <text selectable={false} style='heading' color='white' onPress={() => props.setPage('kitchen')}>Kitchen</text>
                 <spacer grow/>
-                <text selectable={false} style='heading' onPress={() => props.setPage('assembly')}>Assembly</text>
+                <text selectable={false} style='heading' color='white' onPress={() => props.setPage('assembly')}>Assembly</text>
             </hstack>
         </zstack>
     );
