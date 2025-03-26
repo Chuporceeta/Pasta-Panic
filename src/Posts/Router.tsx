@@ -25,8 +25,9 @@ export const Router: Devvit.CustomPostComponent = (context: Context) => {
                 if (userData[2])
                     avatarURL = userData[2];
             }
-            if (avatarURL == '')
+            // if (avatarURL == '')
                 avatarURL = await context.reddit.getSnoovatarUrl(username) || '';
+            console.log(avatarURL);
         }
 
         return {

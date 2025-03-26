@@ -8,6 +8,7 @@ import {OrderScreen} from "../Components/OrderScreen.js";
 import {ScreenSwitcher} from "../Components/ScreenSwitcher.js";
 import {Controller} from "../Controller.js";
 import {Order} from "../types.js";
+import {TopBar} from "../Components/TopBar.js";
 
 interface PinnedPostProps {
     coins: number,
@@ -21,26 +22,38 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
     const newGameForm = useForm(
         {
             title: 'New Game',
-            description: "Select Difficulty",
+            description: "Select Game Settings",
             acceptLabel: 'Start',
             fields: [
                 {
                     type: 'select',
                     name: 'difficulty',
                     label: 'Difficulty',
+                    helpText: 'Controls how many orders come at once and their complexity',
                     required: true,
                     multiSelect: false,
-                    defaultValue: ['easy'],
+                    defaultValue: ['medium'],
                     options: [
                         {label: 'Easy', value: 'easy'},
                         {label: 'Medium', value: 'medium'},
                         {label: 'Hard', value: 'hard'},
+                        {label: 'Insane', value: 'insane'},
                     ]
+                },
+                {
+                    type: 'number',
+                    name: 'length',
+                    label: '# of orders',
+                    helpText: 'Controlled by difficulty, or set manually',
+                    required: false,
                 },
             ],
         },
         (values) => {
+            // @ts-ignore
             Controller.instance.difficulty = values.difficulty[0];
+            Controller.instance.length = values.length || 0;
+            Controller.instance.generateOrders();
             setPage('counter');
         }
     );
@@ -77,12 +90,13 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
     );
 
     const switcher = <ScreenSwitcher setPage={setPage} />
+    const topBar = <TopBar setPage={setPage}/>;
 
     const pages: Record<string, JSX.Element> = {
         menu: Menu,
-        counter: <CounterScreen switcher={switcher}/>,
-        kitchen: <KitchenScreen switcher={switcher}/>,
-        assembly: <AssemblyStationScreen switcher={switcher}/>,
+        counter: <CounterScreen switcher={switcher} topBar={topBar}/>,
+        kitchen: <KitchenScreen switcher={switcher} topBar={topBar}/>,
+        assembly: <AssemblyStationScreen switcher={switcher} topBar={topBar}/>,
         tutorial: <TutorialScreen/>,
         order: <OrderScreen myOrder={props.myOrder} coins={props.coins} avatarURL={props.avatarURL}/>,
     };

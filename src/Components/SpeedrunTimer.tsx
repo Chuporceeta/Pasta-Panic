@@ -1,30 +1,26 @@
-import { useInterval, useState, Devvit, } from "@devvit/public-api";
+import { useInterval, Devvit, } from "@devvit/public-api";
+import {Controller} from "../Controller.js";
 
-let totalcentiseconds = 0;
 
-function startSpeedrun(millis: number, setTime: (time: string) => void) {
+export const SpeedrunTimer = (): JSX.Element => {
   useInterval(() => {
-    totalcentiseconds++;
-    setTime(getSpeedrunTime());
-  }, millis);
-}
+    Controller.instance.timeElapsed++;
+    for (let burner of Controller.instance.burners)
+      if (burner.ingredient)
+        burner.cookTime++;
+  }, 1000).start();
 
-function getSpeedrunTime() {
-  let centiseconds = totalcentiseconds % 100;
-  let seconds = Math.floor(totalcentiseconds/100) % 60;
-  let minutes = Math.floor(totalcentiseconds/6000);
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${centiseconds.toString().padStart(2, '0')}`;
-}
+  const seconds = String(Controller.instance.timeElapsed % 60).padStart(2, '0');
+  const minutes = String(Math.floor(Controller.instance.timeElapsed / 60)).padStart(2, '0');
 
-export const SpeedrunTimer = () => {
-  const [time, setTime] = useState(getSpeedrunTime());
-
-  startSpeedrun(10, setTime);
-
-  // IDK HOW TO RETURN THE TIME
   return (
-    <zstack>
-      <text>{time}</text>
+    <zstack
+        backgroundColor='rgb(20, 20, 20, 0.85)'
+        cornerRadius='small'
+        width='55px' height='30px'
+        alignment='center middle'
+    >
+      <text style='heading' color='green' size='xlarge'>{`${minutes}:${seconds}`}</text>
     </zstack>
   );
 };

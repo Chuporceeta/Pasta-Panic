@@ -5,6 +5,7 @@ import {Controller} from "../Controller.js";
 
 interface AssemblyScreenProps {
     switcher: JSX.Element,
+    topBar: JSX.Element,
 }
 
 export const AssemblyStationScreen = (props: AssemblyScreenProps, context: Context): JSX.Element => {
@@ -32,7 +33,7 @@ export const AssemblyStationScreen = (props: AssemblyScreenProps, context: Conte
                 resizeMode="cover"
             />
             <vstack alignment='center' height='100%' width='100%'>
-                <spacer height='55px'/>
+                {props.topBar}
                 {SeasoningShelf}
                 <spacer height='25px'/>
                 {ToppingShelf}

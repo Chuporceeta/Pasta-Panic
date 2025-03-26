@@ -7,6 +7,7 @@ import {CookTimer} from "./CookTimer.js";
 
 interface KitchenScreenProps {
     switcher: JSX.Element,
+    topBar: JSX.Element,
 }
 
 export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
@@ -36,7 +37,7 @@ export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
                 resizeMode="cover"
             />
             <vstack alignment='center' height='100%' width="100%">
-                <spacer height='55px'/>
+                {props.topBar}
                 {PastaShelf}
                 <spacer height='25px'/>
                 {ProteinShelf}

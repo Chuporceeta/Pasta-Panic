@@ -46,15 +46,19 @@ export const Dish = (props: DishProps): JSX.Element => {
                 width="150px"
                 height="75px"
             />
-            {ingredients.map(({type, ingredient}) => (
-                <image
-                    url={`Ingredients/${type}/${ingredient}.png`}
-                    imageWidth={250}
-                    imageHeight={250}
-                    width="100px"
-                    height="75px"
-                />
-            ))}
+            {['pasta', 'sauce', 'topping', 'protein', 'seasoning'].map(typeName => {
+                return ingredients.map(({type, ingredient}) => (
+                    type == typeName ?
+                    <image
+                        url={`PlatedIngredients/${type}/${ingredient}.png`}
+                        imageWidth={300}
+                        imageHeight={150}
+                        width="150px"
+                        height="75px"
+                    /> : <spacer/>
+                ))
+            }).flat()}
         </zstack>
     );
 };
+

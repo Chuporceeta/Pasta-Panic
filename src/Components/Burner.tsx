@@ -6,8 +6,6 @@ interface BurnerProps {
     index: number;
 }
 
-
-
 export const Burner = (props: BurnerProps): JSX.Element => {
     const data = Controller.instance.burners[props.index];
     const s = Controller.instance.burnerSelection == props.index ? 1 : 0;

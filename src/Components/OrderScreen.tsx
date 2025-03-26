@@ -122,11 +122,11 @@ export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Elem
             ingredients.push({type: 'pasta', ingredient: order.pasta});
         if (order.sauce != null)
             ingredients.push({type: 'sauce', ingredient: order.sauce});
-        if (order.protein != null)
-            ingredients.push({type: 'protein', ingredient: order.protein});
         if (order.toppings != null)
             for (let topping of order.toppings)
                 ingredients.push({type: 'topping', ingredient: topping});
+        if (order.protein != null)
+            ingredients.push({type: 'protein', ingredient: order.protein});
         if (order.seasonings != null)
             for (let seasoning of order.seasonings)
                 ingredients.push({type: 'seasoning', ingredient: seasoning});
