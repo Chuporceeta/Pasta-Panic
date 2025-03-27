@@ -4,6 +4,7 @@ import {Controller} from "../Controller.js";
 import {Dish} from "./Dish.js";
 import {Burner} from "./Burner.js";
 import {CookTimer} from "./CookTimer.js";
+import {OrdersWindow} from "./OrdersWindow.js";
 
 interface KitchenScreenProps {
     switcher: JSX.Element,
@@ -72,6 +73,7 @@ export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
                 <spacer grow/>
                 {props.switcher}
             </vstack>
+            <OrdersWindow/>
         </zstack>
     );
 };

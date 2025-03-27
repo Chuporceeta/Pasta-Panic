@@ -49,7 +49,7 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
                 },
             ],
         },
-        (values) => {
+        async (values) => {
             // @ts-ignore
             Controller.instance.difficulty = values.difficulty[0];
             Controller.instance.length = values.length || 0;

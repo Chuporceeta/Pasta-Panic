@@ -2,6 +2,7 @@ import {Context, Devvit} from "@devvit/public-api";
 import {SauceShelf, SeasoningShelf, ToppingShelf} from "./Shelves.js";
 import {Dish} from "./Dish.js";
 import {Controller} from "../Controller.js";
+import {OrdersWindow} from "./OrdersWindow.js";
 
 interface AssemblyScreenProps {
     switcher: JSX.Element,
@@ -57,6 +58,7 @@ export const AssemblyStationScreen = (props: AssemblyScreenProps, context: Conte
                 <spacer grow/>
                 {props.switcher}
             </vstack>
+            <OrdersWindow/>
         </zstack>
     );
 };

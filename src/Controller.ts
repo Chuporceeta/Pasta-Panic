@@ -5,9 +5,8 @@ import {customerSprites} from "../assets/customerSprites.js";
 export class Controller {
     static instance: Controller = new Controller();
 
-    public difficulty: 'easy'|'medium'|'hard'|'insane' = 'easy';
-    public length: number = 3;
-
+    public difficulty: 'easy'|'medium'|'hard'|'insane' = 'medium';
+    public length: number = 0;
     public timeElapsed: number = 0;
 
     public dishes: IngredientData[][] = [[], [], [], [], [], [], []];
@@ -21,11 +20,33 @@ export class Controller {
     ];
 
     private context?: Context;
-    public init(context: Context) {
+    private redditOrders?: Record<string, string>;
+    public init(context: Context, redditOrders: Record<string, string>) {
         this.context = context;
+        this.redditOrders = redditOrders;
+    }
+    public reset() {
+        this.difficulty = 'medium';
+        this.length = 0;
+        this.timeElapsed = 0;
+        this.dishes = [[], [], [], [], [], [], []];
+        this.dishesReady = [false, false, false, false, false, false, false];
+        this.burners = [
+            {sprite:'blank', ingredient:null, cookTime:0},
+            {sprite:'blank', ingredient:null, cookTime:0},
+            {sprite:'blank', ingredient:null, cookTime:0},
+            {sprite:'blank', ingredient:null, cookTime:0}
+        ];
+        this.orders = [];
+        this.selection = null;
+        this.burnerSelection = null;
     }
 
-    public orders: [Order, string][] = [];
+
+    public orders: [Order, string, boolean][] = []; // order, avatarURL, fromReddit
+    public openOrders: number[] = [];
+    public activeOrders: [number, boolean][] = []; // index, taken
+    public ordersVisible: boolean = false;
     generateOrders() {
         const randInt = (min: number, max: number) =>
             Math.floor(Math.random() * (max - min + 1) + min);
@@ -38,13 +59,14 @@ export class Controller {
         const [min, max] = {'easy': [0, 3], 'medium': [2, 5], 'hard': [4, 7], 'insane': [6, 9]}[this.difficulty];
 
         if (numRedditOrders > 0) {
-            this.context?.redis.hGetAll('orders').then(orders => {
-                const urls = Object.keys(orders);
+            if (this.redditOrders) {
+                const urls = Object.keys(this.redditOrders);
                 numRedditOrders = Math.min(urls.length, numRedditOrders);
                 const chosen = this.choose(urls, numRedditOrders);
                 for (let url of chosen)
-                    this.orders.push([JSON.parse(orders[url]), url]);
-            });
+                    this.orders.push([JSON.parse(this.redditOrders[url]), url, true]);
+            } else
+                numRedditOrders = 0;
         }
 
         for (let i = 0; i < this.length - numRedditOrders; i++) {
@@ -55,13 +77,27 @@ export class Controller {
                 protein: this.choose(['chicken', 'shrimp', 'chorizo', 'meatballs', 'mushrooms', 'salmon'])[0],
                 sauce: this.choose(['marinara', 'vodka', 'bolognese', 'pesto', 'alfredo', 'pumpkin'])[0],
                 toppings: this.choose(['tomatoes', 'olives', 'anchovies', 'mozzarella', 'basil', 'truffle'], toppings),
-                seasonings: this.choose(['parmesan', 'lemon', 'oregano', 'pepper', 'chili', 'garlic'], extras-toppings)
+                seasonings: this.choose(['parmesan', 'lemon', 'oregano', 'pepper', 'chili', 'garlic'], extras - toppings)
             },
-                this.choose(customerSprites)[0]
+                this.choose(customerSprites)[0], false
             ]);
         }
+
+        // Shuffle orders
+        for (let i = this.orders.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.orders[i], this.orders[j]] = [this.orders[j], this.orders[i]];
+        }
+
+        this.openOrders = [...Array(this.length).keys()];
+        if (this.difficulty == 'easy')
+            this.activeOrders = [[0, false]];
+        else if (this.difficulty == 'medium')
+            this.activeOrders = [[0, false], [1, false]];
+        else
+            this.activeOrders = [[0, false], [1, false], [2, false]];
     }
-    private choose(arr: any[], n=0) {
+    private choose(arr: any[], n=1) {
         let result = new Array(n), len = arr.length, taken = new Array(len);
         while (n--) {
             let x = Math.floor(Math.random() * len);
