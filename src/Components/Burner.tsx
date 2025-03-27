@@ -67,6 +67,9 @@ export const Burner = (props: BurnerProps): JSX.Element => {
             <zstack onPress={clicked} alignment='center middle'>
                 {sprites[data.sprite]}
                 {food}
+                {!data.ingredient || data.cookTime < cookIntervals[data.ingredient][3] ? null :
+                    <image url={'CookingIngredients/burn.png'} imageWidth={160} imageHeight={110} width="120px"/>
+                }
             </zstack>
         </hstack>
     );

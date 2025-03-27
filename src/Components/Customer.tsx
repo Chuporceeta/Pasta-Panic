@@ -1,5 +1,6 @@
 import {Devvit, StateSetter} from "@devvit/public-api";
 import {Controller} from "../Controller.js";
+import {cookIntervals} from "../data.js";
 
 interface CustomerProps {
     index: number,
@@ -15,6 +16,20 @@ export const Customer = (props: CustomerProps): JSX.Element => {
 
     const [order, url, fromReddit] = Controller.instance.orders[index];
 
+    function calcEarnings(ingredient: string, cookTime: number | undefined) {
+        if (cookTime) {
+            // @ts-ignore
+            const intervals = cookIntervals[ingredient];
+            const val = [2, 4, 1, 0];
+            let earnings = 1;
+            for (let i = 0; i < 4; i++)
+                if (cookTime >= intervals[i])
+                    earnings = val[i];
+            return earnings;
+        }
+        return 3;
+    }
+
     return (
         <zstack alignment='end bottom'>
             <image
@@ -24,7 +39,59 @@ export const Customer = (props: CustomerProps): JSX.Element => {
                 height='300px'
                 width='190px'
                 onPress={() => {
+                    if (Controller.instance.dishSelection == null)
+                        return;
+                    let earnings = 0;
+                    const sel = Controller.instance.dishes[Controller.instance.dishSelection];
+                    const count = (order.pasta ? 1 : 0)
+                                        + (order.sauce ? 1 : 0)
+                                        + (order.protein ? 1 : 0)
+                                        + (order.toppings ? order.toppings.length : 0)
+                                        + (order.seasonings ? order.seasonings.length : 0)
+                    if (count != sel.length)
+                        return;
+                    for (const data of sel) {
+                        switch(data.type) {
+                            case 'pasta':
+                                if (!order.pasta || data.ingredient != order.pasta)
+                                    return;
+                                break;
+                            case 'sauce':
+                                if (!order.sauce || data.ingredient != order.sauce)
+                                    return;
+                                break;
+                            case 'protein':
+                                if (!order.protein || data.ingredient != order.protein)
+                                    return;
+                                break;
+                            case 'topping':
+                                if (!order.toppings
+                                    || order.toppings.find(ing => data.ingredient == ing) == undefined)
+                                    return;
+                                break;
+                            case 'seasoning':
+                                if (!order.seasonings
+                                    || order.seasonings.find(ing => data.ingredient == ing) == undefined)
+                                    return;
+                                break;
+                        }
+                        earnings += calcEarnings(data.ingredient, data.cookTime);
+                    }
 
+                    Controller.instance.earnings += earnings;
+
+                    Controller.instance.dishes[Controller.instance.dishSelection] = [];
+                    Controller.instance.dishesReady[Controller.instance.dishSelection] = false;
+                    Controller.instance.dishSelection = null;
+                    Controller.instance.activeOrders[props.index] = [Controller.instance.openOrders.shift() ?? -1, false];
+
+                    let runComplete = Controller.instance.openOrders.length == 0;
+                    for (const aOrder of Controller.instance.activeOrders)
+                        if (aOrder[0] != -1)
+                            runComplete = false;
+                    if (runComplete && Controller.instance.setPage) {
+                        Controller.instance.setPage('complete');
+                    }
                 }}
             />
             { ordered ? null :

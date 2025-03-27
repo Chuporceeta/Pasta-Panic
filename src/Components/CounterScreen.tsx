@@ -59,8 +59,9 @@ export const CounterScreen = (props: CounterScreenProps, context: Context): JSX.
                 <spacer height='245px'/>
                 <hstack gap='large' alignment='center middle'>
                     <Dish index={4}/>
-                    <Dish index={5}/>
-                    <Dish index={6}/>
+                    {Controller.instance.difficulty != 'easy' ? <Dish index={5}/> : null}
+                    {Controller.instance.difficulty == 'hard' || Controller.instance.difficulty == 'insane'
+                        ? <Dish index={6}/> : null}
                 </hstack>
                 <spacer grow/>
                 {props.switcher}

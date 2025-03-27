@@ -18,7 +18,7 @@ export const TopBar = (props: TopBarProps): JSX.Element => {
                 <SpeedrunTimer/>
                 <spacer width='15%'/>
                 <button height='30px' onPress={() => {
-                    Controller.instance.reset();
+                    Controller.reset();
                     props.setPage('menu');
                 }}> Quit </button>
             </hstack>

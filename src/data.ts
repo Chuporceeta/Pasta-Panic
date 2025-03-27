@@ -14,3 +14,4 @@ export const cookIntervals = {
     'bowtie': [3, 6, 11, 15],
     'macaroni': [5, 8, 14, 20],
 }
+

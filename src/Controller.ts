@@ -1,4 +1,4 @@
-import {Context} from "@devvit/public-api";
+import {Context, StateSetter} from "@devvit/public-api";
 import {BurnerData, IngredientData, Order} from "./types.js";
 import {customerSprites} from "../assets/customerSprites.js";
 
@@ -8,6 +8,7 @@ export class Controller {
     public difficulty: 'easy'|'medium'|'hard'|'insane' = 'medium';
     public length: number = 0;
     public timeElapsed: number = 0;
+    public earnings: number = 0;
 
     public dishes: IngredientData[][] = [[], [], [], [], [], [], []];
     public dishesReady: boolean[] = [false, false, false, false, false, false, false];
@@ -19,27 +20,19 @@ export class Controller {
         {sprite:'blank', ingredient:null, cookTime:0}
     ];
 
+    public setPage?: StateSetter<string>;
+
     private context?: Context;
     private redditOrders?: Record<string, string>;
-    public init(context: Context, redditOrders: Record<string, string>) {
+    init(context: Context, redditOrders: Record<string, string>) {
         this.context = context;
         this.redditOrders = redditOrders;
     }
-    public reset() {
-        this.difficulty = 'medium';
-        this.length = 0;
-        this.timeElapsed = 0;
-        this.dishes = [[], [], [], [], [], [], []];
-        this.dishesReady = [false, false, false, false, false, false, false];
-        this.burners = [
-            {sprite:'blank', ingredient:null, cookTime:0},
-            {sprite:'blank', ingredient:null, cookTime:0},
-            {sprite:'blank', ingredient:null, cookTime:0},
-            {sprite:'blank', ingredient:null, cookTime:0}
-        ];
-        this.orders = [];
-        this.selection = null;
-        this.burnerSelection = null;
+    static reset() {
+        const context = Controller.instance.context as Context;
+        const redditOrders = Controller.instance.redditOrders as Record<string, string>;
+        Controller.instance = new Controller();
+        Controller.instance.init(context, redditOrders);
     }
 
 
@@ -90,12 +83,8 @@ export class Controller {
         }
 
         this.openOrders = [...Array(this.length).keys()];
-        if (this.difficulty == 'easy')
-            this.activeOrders = [[0, false]];
-        else if (this.difficulty == 'medium')
-            this.activeOrders = [[0, false], [1, false]];
-        else
-            this.activeOrders = [[0, false], [1, false], [2, false]];
+        for (let i = 0; i < (this.difficulty == 'easy' ? 1 : this.difficulty == 'medium' ? 2 : 3); i++)
+            this.activeOrders.push([this.openOrders.shift() ?? -1, false]);
     }
     private choose(arr: any[], n=1) {
         let result = new Array(n), len = arr.length, taken = new Array(len);
@@ -110,8 +99,14 @@ export class Controller {
 
     public selection: IngredientData | null = null;
     public burnerSelection: number | null = null;
+    public dishSelection: number | null = null;
     select(ingredient: IngredientData | null) {
         if (ingredient === null) {
+            if (this.dishSelection != null) {
+                this.dishes[this.dishSelection] = [];
+                this.dishesReady[this.dishSelection] = false;
+                this.dishSelection = null;
+            }
             if (this.burnerSelection != null)
                 this.burners[this.burnerSelection] = {sprite:'blank', ingredient:null, cookTime:0};
             this.selection = this.burnerSelection = null;

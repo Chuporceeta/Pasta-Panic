@@ -1,11 +1,11 @@
-import {Context, Devvit, StateSetter, useForm, useState} from "@devvit/public-api";
+import {Context, Devvit, useForm, useState} from "@devvit/public-api";
 import {IngredientData, Order, Pasta, Protein, Sauce, Seasoning, Topping} from "../types.js";
+import {Controller} from "../Controller.js";
 
 interface OrderScreenProps {
     coins: number,
     myOrder: Order | null,
     avatarURL: string,
-    setPage: StateSetter<string>
 }
 
 export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Element => {
@@ -170,7 +170,7 @@ export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Elem
                 <spacer height='35px'/>
                 <zstack alignment='center middle'>
                     <image
-                        url='plate.png'
+                        url='plate0.png'
                         imageWidth={300}
                         imageHeight={150}
                         width="150px"
@@ -189,7 +189,8 @@ export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Elem
             </vstack>
             <zstack width='80px' height='75px' alignment='end middle'>
                 <button height='30px' onPress={() => {
-                    props.setPage('menu');
+                    if (Controller.instance.setPage)
+                        Controller.instance.setPage('menu');
                 }}> Back </button>
             </zstack>
         </zstack>

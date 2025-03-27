@@ -9,6 +9,7 @@ import {ScreenSwitcher} from "../Components/ScreenSwitcher.js";
 import {Controller} from "../Controller.js";
 import {Order} from "../types.js";
 import {TopBar} from "../Components/TopBar.js";
+import {RunCompleteScreen} from "../Components/RunCompleteScreen.js";
 
 interface PinnedPostProps {
     coins: number,
@@ -91,14 +92,16 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
 
     const switcher = <ScreenSwitcher setPage={setPage} />
     const topBar = <TopBar setPage={setPage}/>;
+    Controller.instance.setPage = setPage;
 
     const pages: Record<string, JSX.Element> = {
         menu: Menu,
         counter: <CounterScreen switcher={switcher} topBar={topBar}/>,
         kitchen: <KitchenScreen switcher={switcher} topBar={topBar}/>,
         assembly: <AssemblyStationScreen switcher={switcher} topBar={topBar}/>,
+        complete: <RunCompleteScreen/>,
         tutorial: <TutorialScreen/>,
-        order: <OrderScreen myOrder={props.myOrder} coins={props.coins} avatarURL={props.avatarURL} setPage={setPage}/>,
+        order: <OrderScreen myOrder={props.myOrder} coins={props.coins} avatarURL={props.avatarURL}/>,
     };
 
     return pages[page] || Menu;
