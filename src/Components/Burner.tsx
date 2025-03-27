@@ -1,5 +1,6 @@
 import {Devvit} from "@devvit/public-api";
 import {Controller} from "../Controller.js";
+import {cookIntervals} from "../data.js";
 
 
 interface BurnerProps {
@@ -16,20 +17,27 @@ export const Burner = (props: BurnerProps): JSX.Element => {
         pan: <image url={`pan${s}.png`} imageWidth={191} imageHeight={110} width="130px"/>
     };
 
+    let variant = 'raw'
+    if (data.ingredient) {
+        const intervals = cookIntervals[data.ingredient];
+        if (data.cookTime >= intervals[1])
+            variant = 'cooked';
+        if (data.cookTime >= intervals[3])
+            variant = 'ash';
+    }
+
     const food = data.sprite == 'blank' ? sprites.blank : data.sprite == 'pot' ?
             <image
-                url={`Ingredients/pasta/${data.ingredient}.png`}
-                imageWidth={250}
-                imageHeight={250}
-                width="50px"
-                height="50px"
+                url={`CookingIngredients/pasta/${data.ingredient}.png`}
+                imageWidth={160}
+                imageHeight={110}
+                width="120px"
             /> :
             <image
-                url={`Ingredients/protein/${data.ingredient}.png`}
-                imageWidth={250}
-                imageHeight={250}
-                width="45px"
-                height="45px"
+                url={`CookingIngredients/${variant == 'ash' ? 'ash.png' : `${variant}-protein/${data.ingredient}.png`}`}
+                imageWidth={191}
+                imageHeight={110}
+                width="130px"
             />;
 
     function clicked() {

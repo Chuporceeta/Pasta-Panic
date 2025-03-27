@@ -1,4 +1,6 @@
+import {Context} from "@devvit/public-api";
 import {BurnerData, IngredientData, Order} from "./types.js";
+import {customerSprites} from "../assets/customerSprites.js";
 
 export class Controller {
     static instance: Controller = new Controller();
@@ -18,8 +20,12 @@ export class Controller {
         {sprite:'blank', ingredient:null, cookTime:0}
     ];
 
+    private context?: Context;
+    public init(context: Context) {
+        this.context = context;
+    }
 
-    public orders: Order[] = [];
+    public orders: [Order, string][] = [];
     generateOrders() {
         const randInt = (min: number, max: number) =>
             Math.floor(Math.random() * (max - min + 1) + min);
@@ -27,24 +33,32 @@ export class Controller {
         if (this.length < 1)
             this.length = {'easy': 3, 'medium': 6, 'hard': 9, 'insane': 12}[this.difficulty];
 
-        const numRedditOrders = Math.max(0, randInt(-Math.floor(this.length/3), Math.floor(this.length/3)));
+        let numRedditOrders = Math.max(0, randInt(-Math.floor(this.length / 3), Math.floor(this.length / 3)));
 
-        const [min, max] = {'easy': [0,3], 'medium': [2,5], 'hard':[4,7], 'insane':[6,9]}[this.difficulty];
+        const [min, max] = {'easy': [0, 3], 'medium': [2, 5], 'hard': [4, 7], 'insane': [6, 9]}[this.difficulty];
+
+        if (numRedditOrders > 0) {
+            this.context?.redis.hGetAll('orders').then(orders => {
+                const urls = Object.keys(orders);
+                numRedditOrders = Math.min(urls.length, numRedditOrders);
+                const chosen = this.choose(urls, numRedditOrders);
+                for (let url of chosen)
+                    this.orders.push([JSON.parse(orders[url]), url]);
+            });
+        }
 
         for (let i = 0; i < this.length - numRedditOrders; i++) {
             const extras = randInt(min, max);
-            const toppings = randInt(Math.max(extras-6, 0), Math.min(extras, 6));
-            this.orders.push({
+            const toppings = randInt(Math.max(extras - 6, 0), Math.min(extras, 6));
+            this.orders.push([{
                 pasta: this.choose(['penne', 'bowtie', 'macaroni', 'ravioli', 'shell', 'spaghetti'])[0],
                 protein: this.choose(['chicken', 'shrimp', 'chorizo', 'meatballs', 'mushrooms', 'salmon'])[0],
                 sauce: this.choose(['marinara', 'vodka', 'bolognese', 'pesto', 'alfredo', 'pumpkin'])[0],
                 toppings: this.choose(['tomatoes', 'olives', 'anchovies', 'mozzarella', 'basil', 'truffle'], toppings),
                 seasonings: this.choose(['parmesan', 'lemon', 'oregano', 'pepper', 'chili', 'garlic'], extras-toppings)
-            });
-        }
-
-        for (let i = 0; i < numRedditOrders; i++) {
-            // fetch reddit order
+            },
+                this.choose(customerSprites)[0]
+            ]);
         }
     }
     private choose(arr: any[], n=0) {

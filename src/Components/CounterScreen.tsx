@@ -18,6 +18,11 @@ export const CounterScreen = (props: CounterScreenProps, context: Context): JSX.
                 width="100%"
                 resizeMode="cover"
             />
+            <hstack>
+                {
+
+                }
+            </hstack>
             <image
                 url="Backgrounds/Counter.png"
                 description="counter"

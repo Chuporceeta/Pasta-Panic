@@ -1,8 +1,11 @@
 import {Context, Devvit, useState} from "@devvit/public-api";
 import {PinnedPost} from "./PinnedPost.js";
 import {Order} from "../types.js";
+import {Controller} from "../Controller.js";
 
 export const Router: Devvit.CustomPostComponent = (context: Context) => {
+    Controller.instance.init(context);
+
     const [data] = useState<{
         coins: number,
         myOrder: Order | null,
@@ -28,6 +31,12 @@ export const Router: Devvit.CustomPostComponent = (context: Context) => {
             // if (avatarURL == '')
                 avatarURL = await context.reddit.getSnoovatarUrl(username) || '';
             console.log(avatarURL);
+
+            // await context.redis.hDel('orders', ['', 'order', 'avatarURL']);
+            // const a = await context.redis.hGetAll('orders');
+            // console.log(a);
+            // console.log(Object.keys(a));
+
         }
 
         return {
