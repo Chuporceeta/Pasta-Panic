@@ -20,7 +20,7 @@ export const SpeedrunTimer = (): JSX.Element => {
         width='55px' height='30px'
         alignment='center middle'
     >
-      <text style='heading' color='green' size='xlarge'>{`${minutes}:${seconds}`}</text>
+      <text style='heading' color='green' size='xlarge' selectable={false}>{`${minutes}:${seconds}`}</text>
     </zstack>
   );
 };

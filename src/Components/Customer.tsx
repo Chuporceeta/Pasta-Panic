@@ -1,4 +1,4 @@
-import {Devvit, StateSetter} from "@devvit/public-api";
+import {Context, Devvit, StateSetter} from "@devvit/public-api";
 import {Controller} from "../Controller.js";
 import {cookIntervals} from "../data.js";
 
@@ -8,8 +8,16 @@ interface CustomerProps {
     setOrdering: StateSetter<number>
 }
 
-export const Customer = (props: CustomerProps): JSX.Element => {
-    const [index, ordered] = Controller.instance.activeOrders[props.index];
+export const Customer = (props: CustomerProps, context: Context): JSX.Element => {
+    const activeOrder = Controller.instance.activeOrders[props.index];
+
+    if (!activeOrder) {
+        // @ts-ignore
+        Controller.instance.setPage('complete');
+        return null;
+    }
+
+    const [index, ordered] = activeOrder;
 
     if (index == -1)
         return null;
@@ -77,21 +85,23 @@ export const Customer = (props: CustomerProps): JSX.Element => {
                         }
                         earnings += calcEarnings(data.ingredient, data.cookTime);
                     }
-
                     Controller.instance.earnings += earnings;
 
                     Controller.instance.dishes[Controller.instance.dishSelection] = [];
                     Controller.instance.dishesReady[Controller.instance.dishSelection] = false;
                     Controller.instance.dishSelection = null;
-                    Controller.instance.activeOrders[props.index] = [Controller.instance.openOrders.shift() ?? -1, false];
 
                     let runComplete = Controller.instance.openOrders.length == 0;
-                    for (const aOrder of Controller.instance.activeOrders)
-                        if (aOrder[0] != -1)
+                    for (let i=0; i < Controller.instance.activeOrders.length; i++)
+                        if (i != props.index && Controller.instance.activeOrders[i][0] != -1)
                             runComplete = false;
-                    if (runComplete && Controller.instance.setPage) {
+                    console.log(runComplete);
+                    if (runComplete) {
+                        // @ts-ignore
                         Controller.instance.setPage('complete');
                     }
+                    Controller.instance.activeOrders[props.index] = [Controller.instance.openOrders.shift() ?? -1, false];
+
                 }}
             />
             { ordered ? null :

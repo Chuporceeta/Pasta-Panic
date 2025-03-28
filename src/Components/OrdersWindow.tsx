@@ -9,6 +9,8 @@ export const OrdersWindow = (): JSX.Element => {
             <vstack alignment='center' width='90%' backgroundColor='gray' cornerRadius='medium'>
                 <spacer height='20px'/>
                 {Controller.instance.activeOrders.map(([i, taken]) => {
+                    if (!taken)
+                        return null;
                     const order = Controller.instance.orders[i];
                     let main = [];
                     if (order[0].pasta)
@@ -23,8 +25,8 @@ export const OrdersWindow = (): JSX.Element => {
                         extras.push(`Toppings: ${order[0].toppings.join(', ')}`);
                     if (order[0].seasonings && order[0].seasonings.length > 0)
                         extras.push(`Seasonings: ${order[0].seasonings.join(', ')}`);
-                    return !taken ? null :
-                        [<hstack borderColor='black' cornerRadius='small' width='90%' alignment='middle'>
+                    return [
+                        <hstack borderColor='black' cornerRadius='small' width='90%' alignment='middle'>
                             <image
                                 url={order[1]}
                                 imageWidth={380}
@@ -39,7 +41,9 @@ export const OrdersWindow = (): JSX.Element => {
                                 </hstack>
                                 {extras.map(str => <text size='large' height='25px'> {str} </text>)}
                             </vstack>
-                        </hstack>, <spacer height='20px'/>]
+                        </hstack>,
+                        <spacer height='20px'/>
+                    ]
                 })}
             </vstack>
         </vstack>

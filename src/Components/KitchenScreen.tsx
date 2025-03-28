@@ -40,9 +40,9 @@ export const KitchenScreen = (props: KitchenScreenProps): JSX.Element => {
             <vstack alignment='center' height='100%' width="100%">
                 {props.topBar}
                 {PastaShelf}
-                <spacer height='25px'/>
-                {ProteinShelf}
                 <spacer height='30px'/>
+                {ProteinShelf}
+                <spacer height='25px'/>
                 <hstack height='100px' width='100%' alignment='center bottom'>
                     <Burner index={0}/>
                     <Burner index={1}/>

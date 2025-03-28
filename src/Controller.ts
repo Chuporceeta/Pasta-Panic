@@ -24,15 +24,17 @@ export class Controller {
 
     private context?: Context;
     private redditOrders?: Record<string, string>;
-    init(context: Context, redditOrders: Record<string, string>) {
+    init(context: Context, redditOrders?: Record<string, string>) {
         this.context = context;
         this.redditOrders = redditOrders;
     }
     static reset() {
         const context = Controller.instance.context as Context;
-        const redditOrders = Controller.instance.redditOrders as Record<string, string>;
+        const redditOrders = Controller.instance.redditOrders;
+        const setPage = Controller.instance.setPage;
         Controller.instance = new Controller();
         Controller.instance.init(context, redditOrders);
+        Controller.instance.setPage = setPage;
     }
 
 
@@ -112,9 +114,10 @@ export class Controller {
             this.selection = this.burnerSelection = null;
         } else if (this.selection?.ingredient == ingredient.ingredient)
             this.selection = null;
-        else { // select ingredient, deselect potentially selected burner
+        else { // select ingredient, deselect potentially selected burner & dish
             this.selection = ingredient;
             this.burnerSelection = null;
+            this.dishSelection = null;
         }
     }
     isSelected(ingredient: string) {
@@ -124,6 +127,9 @@ export class Controller {
         if (loc == 'assembly')
             return this.dishes.slice(1, 4).findIndex(dish => dish.length == 0) + 1;
         // if (loc == 'counter')
-            return this.dishes.slice(4).findIndex(dish => dish.length == 0) + 4;
+            const index = this.dishes.slice(4).findIndex(dish => dish.length == 0) + 4;
+            if (this.difficulty == 'easy' && index > 4) return -1;
+            if (this.difficulty == 'medium' && index > 5) return -1;
+            return index;
     }
 }

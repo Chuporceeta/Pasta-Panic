@@ -16,5 +16,12 @@ export const customerSprites: string[] = [
     'https://i.redd.it/snoovatar/avatars/d713770a-3b37-4a7a-bc2b-6e6fa96a2dc7.png',
     'https://i.redd.it/snoovatar/avatars/23605c15-0c3e-4517-9231-1cb6592bae1b.png',
     'https://i.redd.it/snoovatar/avatars/49c67da8-d718-4e98-b224-5b1cf5452b7c.png',
+    'https://i.redd.it/snoovatar/avatars/a2cca540-850f-4331-8bc3-5b5984eff2a6.png',
+    'https://i.redd.it/snoovatar/avatars/087e5f17-aefa-4724-98c2-cc54aa5ffbc1.png',
+    'https://i.redd.it/snoovatar/avatars/e3a084c7-0d18-4ac4-91ef-4c9d14c0a286.png',
+    'https://i.redd.it/snoovatar/avatars/1e8c1429-6e1c-4bf4-870b-8096ea6735ee.png',
+    'https://i.redd.it/snoovatar/avatars/8ff87d80-8aa2-4839-80cb-fa5d27603ea6.png',
+    'https://i.redd.it/snoovatar/avatars/a38aff70-4817-40b6-a9cb-7c61e682dc84.png',
+    'https://i.redd.it/snoovatar/avatars/1cfddee7-d018-4b64-b0e5-d29c0d1e2948.png',
 
 ]

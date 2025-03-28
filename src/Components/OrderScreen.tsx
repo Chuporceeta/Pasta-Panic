@@ -17,80 +17,80 @@ export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Elem
             acceptLabel: 'Order',
             fields: [
                 {
-                    type: 'select',
-                    name: 'pasta',
-                    label: 'Pasta',
-                    required: false,
-                    multiSelect: false,
-                    options: [
-                        {label: 'Penne', value: 'penne'},
-                        {label: 'Farfalle', value: 'bowtie'},
-                        {label: 'Macaroni', value: 'macaroni'},
-                        {label: 'Ravioli', value: 'ravioli'},
-                        {label: 'Shell', value: 'shell'},
-                        {label: 'Spaghetti', value: 'spaghetti'},
-                    ]
-                },
+                  type: 'select',
+                  name: 'pasta',
+                  label: 'Pasta',
+                  required: false,
+                  multiSelect: false,
+                  options: [
+                      {label: 'Penne', value: 'penne'},
+                      {label: 'Farfalle', value: 'bowtie'},
+                      {label: 'Macaroni', value: 'macaroni'},
+                      {label: 'Ravioli', value: 'ravioli'},
+                      {label: 'Shell', value: 'shell'},
+                      {label: 'Spaghetti', value: 'spaghetti'},
+                  ]
+              },
                 {
-                    type: 'select',
-                    name: 'sauce',
-                    label: 'Sauce',
-                    required: false,
-                    multiSelect: false,
-                    options: [
-                        {label: 'Marinara', value: 'marinara'},
-                        {label: 'Bolognese', value: 'bolognese'},
-                        {label: 'Vodka', value: 'vodka'},
-                        {label: 'Pesto', value: 'pesto'},
-                        {label: 'Alfredo', value: 'alfredo'},
-                        {label: 'Pumpkin', value: 'pumpkin'},
-                    ]
-                },
+                  type: 'select',
+                  name: 'sauce',
+                  label: 'Sauce',
+                  required: false,
+                  multiSelect: false,
+                  options: [
+                      {label: 'Marinara', value: 'marinara'},
+                      {label: 'Bolognese', value: 'bolognese'},
+                      {label: 'Vodka', value: 'vodka'},
+                      {label: 'Pesto', value: 'pesto'},
+                      {label: 'Alfredo', value: 'alfredo'},
+                      {label: 'Pumpkin', value: 'pumpkin'},
+                  ]
+              },
                 {
-                    type: 'select',
-                    name: 'protein',
-                    label: 'Protein',
-                    required: false,
-                    multiSelect: false,
-                    options: [
-                        {label: 'Chicken', value: 'chicken'},
-                        {label: 'Shrimp', value: 'shrimp'},
-                        {label: 'Chorizo', value: 'chorizo'},
-                        {label: 'Meatballs', value: 'meatballs'},
-                        {label: 'Mushrooms', value: 'mushrooms'},
-                        {label: 'Salmon', value: 'salmon'},
-                    ]
-                },
+                  type: 'select',
+                  name: 'protein',
+                  label: 'Protein',
+                  required: false,
+                  multiSelect: false,
+                  options: [
+                      {label: 'Chicken', value: 'chicken'},
+                      {label: 'Shrimp', value: 'shrimp'},
+                      {label: 'Chorizo', value: 'chorizo'},
+                      {label: 'Meatballs', value: 'meatballs'},
+                      {label: 'Mushrooms', value: 'mushrooms'},
+                      {label: 'Salmon', value: 'salmon'},
+                  ]
+              },
                 {
-                    type: 'select',
-                    name: 'toppings',
-                    label: 'Toppings',
-                    required: false,
-                    multiSelect: true,
-                    options: [
-                        {label: 'Tomatoes', value: 'tomatoes'},
-                        {label: 'Olives', value: 'olives'},
-                        {label: 'Anchovies', value: 'anchovies'},
-                        {label: 'Mozzarella', value: 'mozzarella'},
-                        {label: 'Basil', value: 'basil'},
-                        {label: 'Truffle', value: 'truffle'},
-                    ]
-                },
+                  type: 'select',
+                  name: 'toppings',
+                  label: 'Toppings',
+                  required: false,
+                  multiSelect: true,
+                  options: [
+                      {label: 'Tomatoes', value: 'tomatoes'},
+                      {label: 'Olives', value: 'olives'},
+                      {label: 'Anchovies', value: 'anchovies'},
+                      {label: 'Mozzarella', value: 'mozzarella'},
+                      {label: 'Basil', value: 'basil'},
+                      {label: 'Truffle', value: 'truffle'},
+                  ]
+              },
                 {
-                    type: 'select',
-                    name: 'seasonings',
-                    label: 'Seasonings',
-                    required: false,
-                    multiSelect: true,
-                    options: [
-                        {label: 'Parmesan', value: 'parmesan'},
-                        {label: 'Lemon Zest', value: 'lemon'},
-                        {label: 'Oregano', value: 'oregano'},
-                        {label: 'Black Pepper', value: 'pepper'},
-                        {label: 'Chili Flakes', value: 'chili'},
-                        {label: 'Garlic Powder', value: 'garlic'},
-                    ]
-                },
+                          type: 'select',
+                          name: 'seasonings',
+                          label: 'Seasonings',
+                          required: false,
+                          multiSelect: true,
+                          options: [
+                              {label: 'Parmesan', value: 'parmesan'},
+                              {label: 'Lemon Zest', value: 'lemon'},
+                              {label: 'Oregano', value: 'oregano'},
+                              {label: 'Black Pepper', value: 'pepper'},
+                              {label: 'Chili Flakes', value: 'chili'},
+                              {label: 'Garlic Powder', value: 'garlic'},
+                          ]
+                      },
             ],
         },
         async (values) => {
@@ -103,6 +103,13 @@ export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Elem
             };
             setOrder(newOrder);
 
+            const price = (newOrder.pasta ? 7 : 0)
+                        + (newOrder.protein ? 7 : 0)
+                        + (newOrder.sauce ? 7 : 0)
+                        + (newOrder.toppings ? newOrder.toppings.length * 4 : 0)
+                        + (newOrder.seasonings ? newOrder.seasonings.length * 4 : 0)
+            props.coins -= price;
+            props.myOrder = newOrder;
             // store user data: id -> {order, coins}
             await context.redis.hSet(context.userId || '', {
                 coins: props.coins.toString(),
@@ -161,7 +168,7 @@ export const OrderScreen = (props: OrderScreenProps, context: Context): JSX.Elem
                     <vstack height='75px'>
                         <text>You don't have an active order</text>
                         <spacer grow/>
-                        <button onPress={() => context.ui.showForm(orderForm)}>Order Food</button>
+                        <button onPress={() => {if(props.coins>0) context.ui.showForm(orderForm)}}>Order Food</button>
                     </vstack> :
                     <vstack height='75px'>
                         <text>You have an active order</text>

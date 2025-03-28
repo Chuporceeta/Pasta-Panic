@@ -15,6 +15,7 @@ interface PinnedPostProps {
     coins: number,
     myOrder: Order | null,
     avatarURL: string,
+    username: string,
 }
 
 export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Element => {
@@ -80,7 +81,7 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
                     Play
                 </button>
                 <button appearance="primary" onPress={() => setPage('tutorial')}>
-                    Tutorial
+                    How To Play
                 </button>
                 <button appearance="primary" onPress={() => setPage('order')}>
                     Order Food
@@ -99,8 +100,8 @@ export const PinnedPost = (props: PinnedPostProps, context: Context): JSX.Elemen
         counter: <CounterScreen switcher={switcher} topBar={topBar}/>,
         kitchen: <KitchenScreen switcher={switcher} topBar={topBar}/>,
         assembly: <AssemblyStationScreen switcher={switcher} topBar={topBar}/>,
-        complete: <RunCompleteScreen/>,
-        tutorial: <TutorialScreen/>,
+        complete: <RunCompleteScreen username={props.username} coins={props.coins} avatarURL={props.avatarURL} setPage={setPage}/>,
+        tutorial: <TutorialScreen setPage={setPage}/>,
         order: <OrderScreen myOrder={props.myOrder} coins={props.coins} avatarURL={props.avatarURL}/>,
     };
 
